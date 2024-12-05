@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login LA GARDENIA</title>  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="stylesheet" href="login-style.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("f_zRKevewt-EKvcXZ");
+        })();
+    </script>
+</head>
+<body>
+    <!-- Navbar (Fijo en la parte superior) -->
+    <nav class="navbar">
+        <span class="navbar-brand">La Gardenia</span>
+        <div class="navbar-buttons">
+            <a href="ubicacion.html" class="navbar-btn">¿Dónde nos ubicamos?</a>
+        </div>
+    </nav>
+
+    <!-- El resto del contenido -->
+    <div class="container">
+        <div class="form-container" id="login-form">
+            <h2>Iniciar Sesión</h2>
+            <form id="loginForm">
+                <input type="email" id="loginEmail" placeholder="Correo electrónico" required>
+                <input type="password" id="loginPassword" placeholder="Contraseña" required>
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+            <p>¿No tienes una cuenta? <a href="#" id="showRegister">Regístrate</a></p>
+            <p><a href="#" id="showForgotPassword">¿Olvidaste tu contraseña?</a></p>
+        </div>
+
+        <div class="form-container" id="register-form" style="display:none;">
+            <h2>Registro</h2>
+            <form id="registerForm">
+                <input type="text" id="registerName" placeholder="Nombre completo" required>
+                <input type="email" id="registerEmail" placeholder="Correo electrónico" required>
+                <input type="password" id="registerPassword" placeholder="Contraseña" required>
+                <button type="submit">Registrarse</button>
+            </form>
+            <p>¿Ya tienes una cuenta? <a href="#" id="showLogin">Inicia sesión</a></p>
+        </div>
+
+        <div class="form-container" id="forgot-password-form" style="display:none;">
+            <h2>Recuperar Contraseña</h2>
+            <form id="forgotPasswordForm">
+                <input type="email" id="forgotEmail" placeholder="Correo electrónico" required>
+                <button type="submit">Enviar enlace de recuperación</button>
+            </form>
+            <p><a href="#" id="backToLogin">Volver al inicio de sesión</a></p>
+        </div>
+    </div>
+
+    <script src="login-script.js"></script>
+</body>
+</html>
