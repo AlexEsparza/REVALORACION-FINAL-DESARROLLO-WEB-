@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <h1>Inicio de Sesion</h1>
+    <form id="loginForm">
+        <label for="user">Usuario: </label><input type="text" id="user">
+        <button type="submit">Iniciar Sesion</button>
+    </form>
+    <p id="status"></p>
+
+    <script>
+        class GestorDeSesion {
+            constructor() {
+                if (!GestorDeSesion.instance) {
+                    this.usuario = null;
+                    GestorDeSesion.instance = this;
+                }
+                return GestorDeSesion.instance;
+            }
+            
+            iniciarSesion(usuario) {
+                if (!this.usuario) {
+                    this.usuario = usuario;
+                    return true;
+                }
+                return false;
+            }
+
+            obtenerUsuario(){
+                return this.usuario;
+            }
+
+        }
+
+        const gestorSesion = new GestorDeSesion();
+
+        document.getElementById("loginForm").addEventListener("submit", (event) => {
+            event.preventDefault();
+            const usuario = document.getElementById("user").value;
+            if (gestorSesion.iniciarSesion(usuario)) {
+                document.getElementById("status").textContent = `Bienvenido, ${usuario}!`;
+            } else {
+                document.getElementById("status").textContent = `Ya estas autenticado como, ${gestorSesion.obtenerUsuario()}.`;
+            }
+        });
+
+
+    </script>
+</body>
+</html>
