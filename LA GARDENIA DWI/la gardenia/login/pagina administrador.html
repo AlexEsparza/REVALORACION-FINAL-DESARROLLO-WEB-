@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrador de Trajes - La Gardenia</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        input, select {
+            padding: 5px;
+        }
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        #imagePreview {
+            max-width: 200px;
+            max-height: 200px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Administrador de Trajes - La Gardenia</h1>
+    <form id="trajeForm">
+        <input type="text" id="tipo" placeholder="Tipo de traje" required>
+        <input type="text" id="talla" placeholder="Talla" required>
+        <input type="number" id="precio" placeholder="Precio" step="0.01" required>
+        <input type="file" id="imagen" accept="image/*" required>
+        <img id="imagePreview" src="#" alt="Vista previa de la imagen" style="display: none;">
+        <button type="submit">Agregar Traje</button>
+    </form>
+
+    <h2>Lista de Trajes</h2>
+    <table id="trajesTotales">
+        <thead>
+            <tr>
+                <th>Tipo de Traje</th>
+                <th>Tallas Disponibles</th>
+                <th>Precio</th>
+                <th>Imagen</th>
+            </tr>
+        </thead>
+        <tbody id="trajesList">
+        </tbody>
+    </table>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script>
+        const trajeForm = document.getElementById('trajeForm');
+        const trajesList = document.getElementById('trajesList');
+        const imageInput = document.getElementById('imagen');
+        const imagePreview = document.getElementById('imagePreview');
+        let dataTable;
+
+        const initialProducts = [
+            { tipo: "traje 3 piezas", tallas: "S,M,L,XL", precio: 2500, imagen: "traje 3 piezas.webp" },
+            { tipo: "traje cruzado", tallas: "S,M,L,XL", precio: 3000, imagen: "traje cruzado.webp" },
+            { tipo: "traje cuello mao", tallas: "S,M,L,XL", precio: 2700, imagen: "traje cuello mao.webp" },
+            { tipo: "traje de lino", tallas: "S,M,L,XL", precio: 2999, imagen: "traje de lino.webp" },
+            { tipo: "traje tweed", tallas: "S,M,L,XL", precio: 3200, imagen: "traje tweed.webp" },
+            { tipo: "trajes 2 piezas", tallas: "S,M,L,XL", precio: 3400, imagen: "trajes 2 piezas.webp" },
+            { tipo: "esmoquin hombre", tallas: "S,M,L,XL", precio: 5400, imagen: "esmoquin hombre.webp" },
+            { tipo: "TRAJE DE BODAS", tallas: "S,M,L,XL", precio: 3200, imagen: "TRAJE DE BODAS.WEBP" },
+            { tipo: "SAHARIANA HOMBRE", tallas: "S,M,L,XL", precio: 4200, imagen: "SAHARIANA HOMBRE.WEBP" }
+        ];
+
+        imageInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        trajeForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const tipo = document.getElementById('tipo').value;
+            const talla = document.getElementById('talla').value;
+            const precio = document.getElementById('precio').value;
+            const imagen = imagePreview.src;
+
+            dataTable.row.add([
+                tipo,
+                talla,
+                `$${parseFloat(precio).toFixed(2)}`,
+                `<img src="${imagen}" alt="${tipo}" style="max-width: 100px; max-height: 100px;">`
+            ]).draw();
+
+            trajeForm.reset();
+            imagePreview.src = '#';
+            imagePreview.style.display = 'none';
+        });
+
+        $(document).ready(function() {
+            dataTable = $('#trajesTotales').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+                }
+            });
+
+            initialProducts.forEach(product => {
+                dataTable.row.add([
+                    product.tipo,
+                    product.tallas,
+                    `$${product.precio.toFixed(2)}`,
+                    `<img src="${product.imagen}" alt="${product.tipo}" style="max-width: 100px; max-height: 100px;">`
+                ]).draw();
+            });
+        });
+    </script>
+</body>
+</html>
+
